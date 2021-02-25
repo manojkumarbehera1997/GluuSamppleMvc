@@ -1,0 +1,46 @@
+﻿@model SampleMvcApp.Models.SelectedAppDetailsViewModel
+
+@{
+    ViewData["Title"] = "GetAllApp";
+}
+
+<h2>GetAllApp</h2>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
+<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@using (Html.BeginForm("Assign", "AppAccess", FormMethod.Post))
+{
+
+    @Html.Label("Apps:")
+    <br />
+    <br />
+    @Html.ListBoxFor(model => model.appid, Model.appnames, new { style = "width:200px", id = "Dropdown" })
+    <br />
+    <br />
+    <input type="submit" value="Submit" />
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('#Dropdown :selected').val();
+        var multipleCancelButton = new Choices('#Dropdown', {
+            selected: true,
+            removeItemButton: false,
+            maxItemCount: 6,
+            searchResultLimit: 6,
+            renderChoiceLimit: 6
+        });
+
+    });
+</script>
+
+

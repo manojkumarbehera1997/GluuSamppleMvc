@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Newtonsoft.Json;
+
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <main class="mt-3 container">
+        <p class="timertext"
+           style="display:none">
+            You are idle for
+            <span class="secs"></span> seconds.
+        </p>
+        <div class="row">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 text-center">
+                <img src="~/images/all_logos.png" alt="OpenID + FIDO MFA + TrueID" class="img-fluid">
+            </div>
+            <div class="w-100"></div>
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>@Localizer["DemoText"]</h5>
+                        <p>@Localizer["WelcomeText"]</p>
+
+
+                        <a class="btn btn-icon btn-primary" href="/Account/Claims" role="button" id="showToken">
+                            <span class="btn-inner--icon"><i class="fa fa-sign-in"></i></span>
+                            <span class="btn-inner--text">Show Token and Claims</span>
+                        </a>
+                    </div><!-- ./card-body -->
+                </div><!-- ./card -->
+
+            </div>
+        </div>
+
+
+    </main>
+}
+else
+{
+    <main class="mt-3 container" id="loginSection">
+
+        <div class="row">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 text-center">
+                <img src="~/images/all_logos.png" alt="OpenID + FIDO MFA + TrueID" class="img-fluid">
+            </div>
+            <div class="w-100"></div>
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>@Localizer["DemoText"]</h5>
+                        <p>@Localizer["WelcomeText"]</p>
+
+
+                        <a class="btn btn-icon btn-primary" href="" role="button" id="loginLink">
+                            <span class="btn-inner--icon"><i class="fa fa-sign-in"></i></span>
+                            <span class="btn-inner--text">@Localizer["LoginText"]</span>
+                        </a>
+
+
+
+                        <div class="or">
+                            <span>OR</span>
+                        </div>
+                        <div id="icrypto_direct_contianer">
+                            <a href="#!" class="btn btn-primary bg-gradient-primary" id="btn-login-direct">
+                                @Localizer["LoginWithText"] <img src="~/images/icrypto-logo-white.png" alt="iCrypto" style="height: 23px;margin-top: -5px;"> @Localizer["DirectText"]
+                            </a>
+                            <div id="icrypto-web-direct"></div>
+                            <div id="icrypto-web-message"></div>
+                        </div>
+
+                    </div><!-- ./card-body -->
+                </div><!-- ./card -->
+
+
+                <div class="card mt-3" id="register_container">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <small>@Localizer["NoAccountText"]</small>
+                        </div>
+                        <a class="btn btn-icon btn-3 btn-primary" href="#">
+                            <span class="btn-inner--icon"><i class="fa fa-user-plus"></i></span>
+                            <span class="btn-inner--text">@Localizer["RegisterText"]</span>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </main>
+}
+<!-- ./column -->

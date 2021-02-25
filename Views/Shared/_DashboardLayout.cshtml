@@ -1,0 +1,206 @@
+﻿@{ var uid = "";
+    var uname = "";
+    var userpermission = "";
+    var givenname = "";
+    var email = ""; }
+@{
+                @foreach (var claim in User.Claims)
+                {
+                    if (claim.Type == "id")
+                    {
+                        uid = claim.Value;
+                    }
+                    if (claim.Type == "name")
+                    {
+                        uname = claim.Value;
+                    }
+                    if (claim.Type == "roles")
+                    {
+                        userpermission = claim.Value;
+                    }
+                    if (claim.Type == "given_name")
+                    {
+                        givenname = claim.Value;
+                    }
+                    if (claim.Type == "email")
+                    {
+                        email = claim.Value;
+                    }
+                } 
+}
+<head>
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W2NTF3');</script>
+    <!-- End Google Tag Manager -->
+    <link rel="stylesheet" href="~/css/dashboard/heartmath_dashboard_assets_css_bootstrap.css">
+    <link rel="stylesheet" href="~/css/dashboard/heartmath_dashboard_assets_css_css.css">
+    <link rel="stylesheet" href="~/css/dashboard/heartmath_dashboard_bower_components_font-awesome_css_font-awesome.css">
+    <link rel="stylesheet" href="~/css/dashboard/heartmath_dashboard_dist_css_AdminLTE.css">
+    <link rel="stylesheet" href="~/css/dashboard/heartmath_dashboard_dist_css_skins__all-skins.css">
+    <link rel="stylesheet" href="~/css/dashboard/heartmath_dashboard_assets_css_overwrite.css">
+
+    <!-- remove between here -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- and here -->
+
+</head>
+<header class="main-header">
+    <!-- Logo -->
+    <a href="" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b></b></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><img class="logoTxtImg" src="~/images/logo.png" alt="HeartMath"></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <!-- Messages: style can be found in dropdown.less-->
+                <!-- Notifications: style can be found in dropdown.less -->
+                <li class="dropdown notifications-menu">
+                <li class="active">
+                    <a href="" class="glyphicon glyphicon-th" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> </a>
+                    <ul class="dropdown-menu">
+                        <!-- <li><a href="https://gluu.heartcloud.com/libs/oidc/perform_auth.php" target="_blank"> <i class="fa fa-cloud" style="font-size: 24px;color: violet;" aria-hidden="true"></i>HeartCloud</a></li> -->
+                        <li><a href="welcome.php" target="_blank"><i class="fa fa-plus" style="font-size: 24px;color: violet;"></i>HeartMath Store</a></li>
+                        <li><a href="https://experience-dev.heartmath.com/libs/oidc/perform_auth.php" target="_blank"><i class="fa fa-heartbeat" style="font-size: 24px;color: violet;"></i>HeartMath Experience</a></a></li>
+
+                    </ul>
+
+                </li>
+
+                <!-- Tasks: style can be found in dropdown.less -->
+                <li class="dropdown tasks-menu">
+
+
+                </li>
+                <!-- User Account: style can be found in dropdown.less -->
+
+                <li class="dropdown user user-menu">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+
+                        <img class="userpanel-icon" src="">
+                        <span class="hidden-xs">@uname</span>
+                        <span class="hidden-xs">@uid</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        User image
+                        <li class="user-header">
+
+                            <p>@givenname</p>
+                            <p>@email</p>
+
+                        </li>
+                        <!-- Menu Body -->
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+
+                            <div class="pull-right">
+                                <a href="/Account/Logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Control Sidebar Toggle Button -->
+
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        @if (userpermission == "user")
+         {
+            <ul class="sidebar-menu" data-widget="tree">
+
+            <li class="active treeview">
+
+            <li class="active"><a href="/Account/MyApps"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+            <li class="active"><a href="/Account/Profile"><i class="fa fa-user" aria-hidden="true"></i> View Profile </a></li>
+            <li class="active"><a href="/Account/ChangePassword"><i class="fa fa-shield" aria-hidden="true"></i> Change Password </a>
+            </li>
+            </ul> 
+         }
+         else
+         {
+
+            <ul class="sidebar-menu" data-widget="tree">
+
+            <li class="active treeview">
+
+            <li class="active"><a href="/Account/MyApps"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+            <li class="active"><a href="profile.php"><i class="fa fa-user" aria-hidden="true"></i> Edit Profile </a></li>
+            <li class="active"><a href="changepassword.php"><i class="fa fa-shield" aria-hidden="true"></i> Change Password </a>
+            <li class="active"><a href="/Account/AssignApp"><i class="fa fa-user-plus" aria-hidden="true"></i> Assign Apps </a>
+            </li>
+
+    <li class="active treeview">
+        <a href="">
+            <i class="fa fa-users" aria-hidden="true"></i> <span>Users</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+
+        <ul class="treeview-menu">
+            <li class="active"><a href="/User/List"><i class="fa fa-list-alt" aria-hidden="true"></i> View Users</a></li>
+            <li class="active"><a href="add_user.php"><i class="fa fa-user-plus" aria-hidden="true"></i> Add User</a></li>
+            <li class="active"><a href="manage_role.php"><i class="fa fa-user-circle" aria-hidden="true"></i> Manage Role </a></li>
+            <li class="active"><a href="export.php"><i class="fa fa-file" aria-hidden="true"></i> Export </a></li>
+        </ul>
+    </li>
+    <li class="active treeview">
+        <a href="">
+            <i class="fa fa-server" aria-hidden="true"></i> <span>Log</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="active"><a href="viewlog.php"><i class="fa fa-search-plus" aria-hidden="true"></i> View Log</a></li>
+            <li class="active"><a href="log_settings.php"><i class="fa fa-cog" aria-hidden="true"></i>Setting</a></li>
+        </ul>
+    </li>
+
+    <li class="active treeview">
+    <li class="active"><a href="user_uuid.php"><i class="fa fa-address-card-o" aria-hidden="true"></i> SSO Mapping</a></li>
+    <li class="active"><a href="user_loginhistory.php"><i class="fa fa-list-ul" aria-hidden="true"></i> Login History </a></li>
+
+    <li class="active">
+        <a href="https://cdn.quantumintech.com/downloads/SSO-Support-Guide.pdf" target="_blank">
+            <i class="fa fa-file" aria-hidden="true"></i> Support Guide
+        </a>
+    </li>
+
+</ul>}
+    </section>
+    <!-- /.sidebar -->
+</aside>
+
+<body class="skin-purple sidebar-mini" style="height: auto; min-height: 100%;">
+    <div style="margin-left: 23.0%;">
+        @RenderBody()
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+
+
+

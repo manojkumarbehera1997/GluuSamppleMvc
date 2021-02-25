@@ -1,0 +1,21 @@
+﻿@model SampleMvcApp.Models.SelectedAppDetailsViewModel
+
+@{
+    ViewData["Title"] = "GetAllApp";
+}
+
+<h2>GetAllApp</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@using (Html.BeginForm("Details", "AppAccess", FormMethod.Post))
+    {
+        @Html.Label("Apps:")
+        <br />
+        <br />
+        @Html.ListBoxFor(model => model.appid, Model.appnames, new { style = "width:200px", id = "Dropdown" })
+        <br />
+        <br />
+        <input type="submit" value="Submit" />
+    }

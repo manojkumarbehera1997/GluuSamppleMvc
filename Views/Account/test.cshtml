@@ -1,0 +1,1116 @@
+﻿@{ ViewData["Title"] = "Purpose Page"; }
+<section class="content-header">
+    <h1>
+        Purpose
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active"><a href="Overview">Organisation</a></li>
+        <li class="active"><a href="Service?idOrganisation=@ViewBag.OrganisationId">Services</a></li>
+        <li class="active">Purpose</li>
+    </ol>
+</section>
+<section class="breadcrumb">
+    <label id="BrdcrbOrganisationName">@ViewBag.OrganisationName > @ViewBag.ServiceName</label>
+</section>
+<section class="content">
+    <div class="box box-default">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <button type="button" id="btnAddPurpose" class="btn btn-block btn-primary" onclick="showAddPurposeDiv()">Add New Purpose</button>
+                </div>
+            </div>
+            <br />
+            <div class="box box-default" id="AddPurposeFormDiv" style="display:none;">
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" id="Hidden_IdPurpose" name="Hidden_IdPurpose" value="0" />
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Justification</label>
+                                <select class="form-control select2" id="justification" name="justification">
+                                    <option value="0" selected="selected">Select Justification</option>
+                                    <option>Consent</option>
+                                    <option>Contract</option>
+                                    <option>Legal Obligations</option>
+                                    <option>Legitimate Interest</option>
+                                    <option>Public Task</option>
+                                    <option>Vital Interests</option>
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Sensitive Data Category</label>
+                                <input type="text" id="sensitiveDataCategory" name="sensitiveDataCategory" class="form-control sensitiveCat" />
+                            </div>
+                            <div class="form-group">
+                                <label>Non-Sensitive Data Category</label>
+                                <input type="text" id="nonSensitiveDataCategory" name="nonSensitiveDataCategory" class="form-control nonSensitiveCat" />
+                            </div>
+
+                            <!-- /.form-group -->
+                        </div>
+
+                        <!-- /.col -->
+                        <div class="col-md-6">
+
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Purpose description</label>
+                                <textarea class="form-control" id="purposeDescription" name="purposeDescription"></textarea>
+                            </div>
+
+                            <!-- /.form-group -->
+
+                        </div>
+                        <!-- /.col -->
+                        @*<div class="form-group">
+                                <button type="button" class="btn btn-block btn-primary">Save</button>
+                            </div>*@
+
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+                    <div class="container col-md-12">
+                        <a id="add_row" class="btn btn-primary pull-left"><i class="fa fa-plus-circle"></i>Add</a>
+                        <br />
+                        <div class="row clearfix">
+                            <div class="col-md-12 column">
+                                <table class="table table-bordered table-hover" id="tab_logic">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="display:none;">
+                                                #
+                                            </th>
+                                            <th class="text-center">
+                                                Processor
+                                            </th>
+                                            <th class="text-center">
+                                                Processor Service
+                                            </th>
+                                            <th class="text-center">
+                                                Data Categories
+                                            </th>
+                                            <th class="text-center">
+
+                                            </th>
+                                            <th class="text-center">
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id='addr0'>
+                                            <td style="display:none;">
+                                                <div class="rowNum">1</div>
+                                                <input type="hidden" id="Hidden_IdProcessor0" name="Hidden_IdProcessor0" value="0" />
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+
+
+                                                    <input type="text" id="OrganisationName0" name='OrganisationName0' placeholder='Enter Organisation' class="form-control" />
+                                                    <span id="OrganisationShowHidden0" name="OrganisationShowHidden0" style="width:2px;" class="input-group-addon">
+                                                        <i id="OrganisationLoader0" name="OrgansationLoader0" class="" style="font-size:15px"></i>
+                                                    </span>
+
+                                                    <input type="hidden" id="Hidden_OrganisationName0" name="Hidden_OrganisationName0" value="0" />
+
+                                                    <span class="input-group-addon input-group-addon-btn bg-white">
+                                                        <a href="#" id="addOrganisationButton0" name="addOrganisationButton0" data-toggle="modal" data-target="#allorganisationmodal"><span class="glyphicon glyphicon-plus"></span></a>
+                                                    </span>
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input type="text" id="ServiceName0" name='ServiceName0' placeholder='Enter Service' class="form-control" />
+                                                    <span id="ServiceShowHidden0" name="ServiceShowHidden0" style="width:2px;" class="input-group-addon">
+                                                        <i id="ServiceLoader0" name="ServiceLoader0" class="" style="font-size:15px"></i>
+                                                    </span>
+                                                    <input type="hidden" id="Hidden_ServiceName0" name="Hidden_ServiceName0" value="0" />
+                                                    <span class="input-group-addon input-group-addon-btn bg-white">
+                                                        <a href="#" id="addServiceButton0" data-toggle="modal" data-target="#addServiceModal" name="addServiceButton0"><span class="glyphicon glyphicon-plus"></span></a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @*Option box*@
+                                                @*<select name="CategoryList" id="CategoryList0" placeholder="Select data categories" class="CategoryListClass" multiple></select>*@
+
+                                                <input type="text" id="DataCategory0" name='DataCategory0' placeholder='Enter Data Category' class="form-control DataCategoryList" />
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" id="InternationalTransfer0" name='InternationalTransfer0'> Int Transfer
+                                                    </label>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                @*<a id='delete_row' class="pull-right btn btn-danger"><i class="fa fa-minus-circle"></i></a>*@
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn deleteCategory"><i class="glyphicon glyphicon-trash"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr id='addr1'></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button type="button" id="saveDataCategories" class="btn btn-block btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg" id="allorganisationmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add Organisation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" id="Hidden_IdOrganisation" name="Hidden_IdOrganisation" value="0" />
+                            <input type="hidden" id="Hidden_OrganisationSlNo" name="Hidden_OrganisationSlNo" />
+                            <div class="form-group">
+                                <label>Organisation Name</label>
+                                <input type="text" id="organisationNameModal" name="organisationNameModal" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label id="lblCompanyHouseNo" name="lblCompanyHouseNo">Companies House Number</label>
+                                <input type="text" id="companyHouseNo" name="companyHouseNo" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                            </div>
+                            <div class="form-group">
+                                <label>Street Address</label>
+                                <input type="text" id="streetAddress" name="streetAddress" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Locality</label>
+                                <input type="text" id="addressLocality" name="addressLocality" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Postal Code</label>
+                                <input type="text" id="postalCode" name="postalCode" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" id="email" name="email" class="form-control">
+                            </div>
+
+                            <!-- /.form-group -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lblICONumber" name="lblICONumber">ICO Number</label>
+                                <input type="text" id="icoNumber" name="icoNumber" class="form-control">
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Companies house SIC Code(s)</label>
+                                <input type="text" id="sicCode" name="sicCode" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Region</label>
+                                <input type="text" id="addressRegion" name="addressRegion" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" id="organisationCountry" name="organisationCountry" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Telephone</label>
+                                <input type="text" id="organisationPhone" name="organisationPhone" class="form-control">
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSaveOrganisation" name="btnSaveOrganisation" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add Service</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" id="Hidden_IdService" name="Hidden_IdService" value="0" />
+                        <input type="hidden" id="Hidden_ProcessorSlNo" name="Hidden_ProcessorSlNo" value="0" />
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Service Name</label>
+                                <input type="text" id="serviceNameModal" name="serviceNameModal" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Privacy Controller Category</label>
+                                <input type="text" id="privacyControllerModal" name="privacyControllerModal" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                            </div>
+                            <div class="form-group">
+                                <label>Trading Name</label>
+                                <input type="text" id="tradingNameModal" name="tradingNameModal" class="form-control">
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Privacy Policy Link</label>
+                                <input type="text" id="privacyPolicyLinkModal" name="privacyPolicyLinkModal" class="form-control">
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Language</label>
+                                <input type="text" id="languageModal" name="languageModal" class="form-control">
+                            </div>
+
+                            <!-- /.form-group -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSaveService" name="btnSaveService" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box box-default">
+        <div class="box-body">
+
+            <table id="tbpurpose" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Justification</th>
+                        <th>Description</th>
+                        <th>No. of Data Categories</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script src="~/js/choices.min.js"></script>
+
+<script>
+
+    $(function () {
+
+        DataCategoryBind("DataCategory0");
+
+
+        //Save an Organisation
+        $('#btnSaveOrganisation').click(function () {
+
+            if ($("#organisationNameModal").val() == "" || $("#organisationNameModal").val() == undefined) {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'Enter Organisation Name!',
+                });
+                return false;
+            }
+
+            var myData = {
+                "IdOrganisation": $("#Hidden_IdOrganisation").val(),
+                "Name": $("#organisationNameModal").val(),
+                "StreetAddress": $("#streetAddress").val(),
+                "PostalCode": $("#postalCode").val(),
+                "AddressRegion": $("#addressRegion").val(),
+                "AddressLocality": $("#addressLocality").val(),
+                "AddressCountry": $("#organisationCountry").val(),
+                "Email": $("#email").val(),
+                "PhoneNumber": $("#organisationPhone").val(),
+                "ICOName1": $("#lblICONumber").html(),
+                "PrimaryDescriptor1": $("#icoNumber").val(),
+                "ICOName2": $("#lblCompanyHouseNo").html(),
+                "PrimaryDescriptor2": $("#companyHouseNo").val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("QuickSaveOrganisation")',
+                data: JSON.stringify(myData),
+                cache: false,
+                dataType: 'json',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+
+                    clearOrganisationModal();//Clear the Modal controls
+
+                    if (result.name == 'same') {
+                        $.alert({
+                            title: 'Audit And Engineering Console',
+                            content: 'Organisation Already Exists!',
+                        });
+
+                    }
+                    else if (result.name == 'sameico') {
+                        $.alert({
+                            title: 'Audit And Engineering Console',
+                            content: 'Same Ico Number Already Exists!',
+                        });
+                    }
+                    else {
+                        $.alert({
+                            title: 'Audit And Engineering Console',
+                            content: 'Organisation Saved!',
+                        });
+                        var _id = "#OrganisationName" + $("#Hidden_OrganisationSlNo").val();
+                        var _idh = "#Hidden_OrganisationName" + $("#Hidden_OrganisationSlNo").val();
+
+                        $(_id).val(result.name);
+                        $(_idh).val(result.idOrganisation);
+
+                     }
+
+                    $("#Hidden_IdOrganisation").val("0");
+
+
+
+
+
+                },
+                error: function (error) {
+                    $('#error').html(error.responseText);
+                }
+            });
+        });
+
+
+        //Save a Service
+        $('#btnSaveService').click(function () {
+            var slNo = $("#Hidden_ProcessorSlNo").val();
+
+            if ($("#serviceNameModal").val() == "" || $("#serviceNameModal").val() == undefined) {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'Enter Service Name!',
+                });
+                return false;
+            }
+
+
+            var myData = {
+                "IdService": $("#Hidden_IdService").val(),
+                "Name": $("#serviceNameModal").val(),
+                "DateCreated": new Date(),
+                "IdOrganisation": $("#Hidden_OrganisationName" + slNo).val(),
+                "Language": $("#languageModal").val(),
+                "TradingName": $("#tradingNameModal").val(),
+                "PrivacyControllerCategory": $("#privacyControllerModal").val(),
+                "PrivacyNotice": $("#privacyPolicyLinkModal").val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("QuickSaveService")',
+                data: JSON.stringify(myData),
+                cache: false,
+                dataType: 'json',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    ClearServiceModal();//Clear the Modal controls
+                    if (result.name == 'same') {
+                        $.alert({
+                            title: 'Audit And Engineering Console',
+                            content: 'Service Already Exists!',
+                        });;
+
+                    }
+                    else {
+                        $.alert({
+                            title: 'Audit And Engineering Console',
+                            content: 'Service Saved!',
+                        });
+                        var _id = "#ServiceName" + $("#Hidden_ProcessorSlNo").val();
+                        var _idh = "#Hidden_ServiceName" + $("#Hidden_ProcessorSlNo").val();
+
+                        $(_id).val(result.name);
+                        $(_idh).val(result.idService);
+
+                    }
+
+
+                },
+                error: function (error) {
+                    $('#error').html(error.responseText);
+                }
+            });
+        });
+
+
+        $('#allorganisationmodal').on('shown.bs.modal', function (event) {
+            var triggerElement = $(event.relatedTarget); // Button that triggered the modal
+            var id = triggerElement.attr("id");
+
+            $("#Hidden_OrganisationSlNo").val(id[id.length - 1]);
+        });
+
+        $('#addServiceModal').on('shown.bs.modal', function (event) {
+            var triggerElement = $(event.relatedTarget); // Button that triggered the modal
+            var id = triggerElement.attr("id");
+            if ($("#Hidden_OrganisationName" + id[id.length - 1]).val() == 0) {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'Select a processor!',
+                });
+                $('#addServiceModal').modal('hide');
+            }
+            $("#Hidden_ProcessorSlNo").val(id[id.length - 1]);
+        });
+
+
+        var url = "/Organisation/GetPurposesByServiceId/" + @ViewBag.ServiceId;
+        var table = $("#tbpurpose").DataTable({
+            'Dom': 'frtlip',
+            'bLengthChange': true,
+            'processing': true,
+            'deferRender': true,
+            'ajax': url,
+            'order': [[0, 'asc']],
+            'iDisplayLength': 10,
+            'select': true,
+
+            "columnDefs":
+                [],
+            "columns": [
+                { "data": "idPurpose", "visible":false },
+                { "data": "justification" },
+                { "data": "description" },
+                { "data": "dataCategoryCount" },
+                @{
+                    <text>
+                {
+                    "data": null,
+                    "render": function (data, type, full, meta) {
+                        return '<div class="btn-group"> <button type="button" id="btnEdit" name="btnEdit" onclick="editPurpose(' + data.idPurpose + ')" class="btn btn-default btn"><i class="glyphicon glyphicon-pencil"></i></button> <button type="button" id="btnDelete" name="btnDelete" onclick="deletePurpose(' + data.idPurpose + ')" class="btn btn-default"><i class="glyphicon glyphicon-trash"></i></button> </div>';
+                    },
+                    "class": "special-td"
+                }
+                    </text>
+                }
+            ],
+            'fnRowCallback': function (nRow, aData, iDisplayIndex) {
+                $('td:eq(1)', nRow).css("text-align", "Left");
+                $('td:eq(2)', nRow).css("text-align", "Left");
+                return nRow;
+            },
+            "oTableTools": {
+                "sRowSelect": "single",
+                "aButtons": []
+            }
+        });
+
+
+        //AutoComplete Organisation
+        var name = 'OrganisationName';
+        var id = 'OrganisationName0';
+        var spanid = 'OrganisationShowHidden0';
+        var iconid = 'OrganisationLoader0';
+        $('#' + spanid).hide();
+        doAutoComplete(name, id, spanid, iconid);
+
+        var name = 'ServiceName';
+        var id = 'ServiceName0';
+        var spanid = 'ServiceShowHidden0';
+        var iconid = 'ServiceLoader0';
+        $('#' + spanid).hide();
+        doAutoComplete(name, id, spanid, iconid);
+
+
+        DataCategorySelectise('#sensitiveDataCategory', '#nonSensitiveDataCategory');
+
+        DataCategorySelectise('#nonSensitiveDataCategory', '#sensitiveDataCategory');
+
+    });
+    //End: $(document).ready()..
+
+
+    function editPurpose(id) {
+
+        var ajxUrl = '@Url.Action("GetPurposeById")?idPurpose=' + id;
+        $.get(ajxUrl,
+            function (result) {
+                //Bind Control values
+                $("#Hidden_IdPurpose").val(result.data.idPurpose);
+                $("#justification").val(result.data.justification);
+                $("#purposeDescription").val(result.data.description);
+
+                //Bind Sensitive Categories
+                var sensitiveSelect = $("#sensitiveDataCategory")[0].selectize;
+
+                sensitiveSelect.clear();//Clear items
+                var sensitiveCategories = result.data.sensitiveDataCategory.split(',');
+                $.each(sensitiveCategories, function (key, value) {
+                    sensitiveSelect.addOption({ itemname: value });
+                    sensitiveSelect.addItem(value);//Add items
+                });
+
+                //Bind Non-Sensitive Categories
+                var nonSensitiveSelect = $("#nonSensitiveDataCategory")[0].selectize;
+                nonSensitiveSelect.clear();//Clear items
+                var nonSensitiveCategories = result.data.nonSensitiveDataCategory.split(',');
+                $.each(nonSensitiveCategories, function (key, value) {
+                    nonSensitiveSelect.addOption({ itemname: value });
+                    nonSensitiveSelect.addItem(value);//Add items
+                });
+
+                DeleteRow();
+
+                for (var i = 0; i < result.data.processors.length; i++) {
+
+                    AddRow();
+
+                    $("#OrganisationName" + i).val(result.data.processors[i].processorName);
+                    $("#Hidden_OrganisationName" + i).val(result.data.processors[i].processor);
+                    $("#ServiceName" + i).val(result.data.processors[i].processorServiceName);
+                    $("#Hidden_ServiceName" + i).val(result.data.processors[i].processorService);
+                    $("#InternationalTransfer" + i).prop('checked', result.data.processors[i].internationalTransfer);
+                    //$("#DataCategory" + i).val(result.data.processors[i].dataCategory);
+
+                    //Bind Processor Categories
+                    var dataCategories = result.data.processors[i].dataCategory.split(',');
+                    $.each(dataCategories, function (key, value) {
+                        var select = $("#DataCategory" + i)[0].selectize;
+                        select.addOption({ categoryname: value });
+                        select.addItem(value);
+                    });
+                }
+
+
+                $('#AddPurposeFormDiv').show();
+                $("#btnAddPurpose").html('Cancel');
+            })
+            .done(function () {
+
+            })
+            .fail(function () {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'Error!',
+                });
+            })
+            .always(function () {
+                //
+            });
+    }
+
+
+    function deletePurpose(id) {
+
+        var ajxUrl = '@Url.Action("DeletePurpose")?idPurpose=' + id;
+        $.get(ajxUrl,
+            function (result) {
+                //Reload the grid data
+                if (result.data === 1) {
+                    $.alert({
+                        title: 'Audit And Engineering Console',
+                        content: 'Purpose Deleted!',
+                    });
+                    $("#tbpurpose").DataTable().ajax.reload();
+                    $('#AddPurposeFormDiv').hide();
+                    ClearPurposeData();
+                    $("#btnAddPurpose").html('Add New Purpose');
+                }
+                else {
+                    $.alert({
+                        title: 'Audit And Engineering Console',
+                        content: 'Error Ocured While Deleting!',
+                    });
+                }
+            })
+            .done(function () {
+
+            })
+            .fail(function () {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'error!',
+                });
+            })
+            .always(function () {
+                //
+            });
+    }
+
+
+    function doAutoComplete(name, id, spanid, iconid) {
+        var urlStr;
+        switch (name) {
+            case "OrganisationName":
+                urlStr = '@Url.Action("OrganisationsFiltered", "Organisation")' +
+                    "?idOrganisation=" + @ViewBag.OrganisationId +"&filterText=#__FilterTXT__#";
+                makeAutoComplete(urlStr, 'name', 'idOrganisation', id, spanid, iconid);
+                break;
+
+            case "ServiceName":
+                urlStr = '@Url.Action("ServicesFiltered", "Organisation")' +
+                    "?idOrganisation=#__ProcessorOrgId__#&filterText=#__FilterTXT__#";
+                makeAutoComplete(urlStr, 'name', 'idService', id, spanid, iconid);
+                break;
+        }
+    }
+
+    function makeAutoComplete(sourceUrl, label, value, id, spanid, iconid) {
+
+        var txtId = document.getElementById(id);
+        var idId = document.getElementById("Hidden_" + id);
+
+        $(txtId).autocomplete({
+            source: function (request, response) {
+                $('#' + spanid).show();
+                $('#' + iconid).addClass('fa fa-spinner fa-spin');
+
+                var filterText = request.term;
+                var newObject = "" + sourceUrl;
+                newObject = newObject.replace("#__FilterTXT__#", filterText);
+
+                if (newObject.indexOf("ServicesFiltered") != -1) {
+                    newObject = newObject.replace("#__ProcessorOrgId__#", $("#Hidden_OrganisationName" + id[id.length - 1]).val());
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: newObject,
+                    // data: JSON.stringify(parameters),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+
+                        if (data.length > 0) {
+
+                            $('#' + iconid).removeClass('fa fa-spinner fa-spin');
+                            $('#' + spanid).hide();
+                            response($.map(data,
+                                function (item) {
+
+                                    return {
+                                        Index: (value === 'Default') ? item : item[value],
+                                        value: (label === 'Default') ? item : item[label]
+                                    }
+                                }));
+                        } else {
+                            $('#' + iconid).removeClass('fa fa-spinner fa-spin');
+                            $('#' + spanid).hide();
+                            response([{ label: 'No Items Found', val: -1 }]);
+                        }
+
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        $body.removeClass("loading");
+                        alert('Error in ' + id + ' autocomplete:  ' + errorThrown);
+                    }
+                });
+            },
+            delay: 500,
+            minLength: 2,
+            autoFocus: 1,
+            change: function (event, ui) {
+                if (!ui.item) {
+                    $(idId).val(0);
+                    //$(txtId).autocomplete('close').val('');
+                } else {
+                    $(idId).val(ui.item.Index);
+                    if (id.indexOf("OrganisationName") != -1) {
+                        $("#Hidden_ServiceName" + id[id.length - 1]).val("0");
+                        $("#ServiceName" + id[id.length - 1]).val("");
+                    }
+                    //alert(ui.item.Index);
+                }
+            }
+        });
+    }
+
+
+    function showAddPurposeDiv() {
+
+        if ($("#btnAddPurpose").html().trim() == 'Add New Purpose') {
+            $("#btnAddPurpose").html('Cancel');
+        } else {
+            $("#btnAddPurpose").html('Add New Purpose');
+            ClearPurposeData();
+        }
+        $('#AddPurposeFormDiv').slideToggle();
+    }
+
+
+
+    var i = 1;
+
+    var j = 0;
+    if (i > 1) {
+        j = i;
+    }
+
+
+
+    $("#add_row").click(function () {
+        AddRow();
+    });
+
+    function AddRow() {
+
+        $('#addr' + i).html("<td style='display:none;'><div class='rowNum'>" + (i + 1) + "</div><input type='hidden' id='Hidden_IdProcessor" + i + "' name='Hidden_IdProcessor" + i + "' value='0' /></td><td><div class='input-group'><input id='OrganisationName" + i + "' type='text' placeholder='Enter Organisation' class='form-control input-md'><span id='OrganisationShowHidden" + i + "' name='OrganisationShowHidden" + i + "' style='width:2px;' class='input-group-addon'><i id='OrgansationLoader" + i + "' name='OrgansationLoader" + i + "' class='' style ='font-size:15px'></i ></span ><input type='hidden' id='Hidden_OrganisationName" + i + "' name='Hidden_OrganisationName" + i + "' value='0' /><span class='input-group-addon input-group-addon-btn bg-white'> <a href='javascript:void (0);' id='addOrganisationButton" + i + "' data-toggle='modal' data-target='#allorganisationmodal' name='addOrganisationButton" + i + "'><span class='glyphicon glyphicon-plus'></span></a></span></div></td><td><div class='input-group'><input id='ServiceName" + i + "' name='ServiceName" + i + "' type='text' placeholder='Enter Service'  class='form-control input-md'/><span id ='ServiceShowHidden" + i + "' name ='ServiceShowHidden" + i + "' style='width:2px;' class='input-group-addon'><i id='ServiceLoader" + i + "' name='ServiceLoader" + i + "' class='' style='font-size:15px'></i></span><input type ='hidden' id= 'Hidden_ServiceName" + i + "' name ='Hidden_ServiceName" + i + "' value = '0'/><span class='input-group-addon input-group-addon-btn bg-white'> <a href='javascript:void (0);' id='addServiceButton" + i + "' data-toggle='modal' data-target='#addServiceModal' name='addServiceButton" + i + "'><span class='glyphicon glyphicon-plus'></span></a> </span></div ></td > <td><input type='text' id='DataCategory" + i + "' name='DataCategory" + i + "' placeholder='Enter Data Category' class='form-control DataCategoryList' /></td> <td> <div class='checkbox'> <label> <input type='checkbox' id='InternationalTransfer" + i + "' name='InternationalTransfer" + i + "'> Int Transfer </label> </div> </td><td><div class='btn-group'> <button type='button' class='btn btn-default btn deleteCategory'><i class='glyphicon glyphicon-trash'></i></button></div></td>");
+
+    //AutoComplete
+    var name = 'OrganisationName';
+        var id = 'OrganisationName' + i;
+        var spanid = 'OrganisationShowHidden' + i;
+        var iconid = 'OrgansationLoader' + i;
+        $('#' + spanid).hide();
+        doAutoComplete(name, id, spanid, iconid);
+
+    var name = 'ServiceName';
+        var id = 'ServiceName' + i;
+        var spanid = 'ServiceShowHidden' + i;
+        var iconid = 'ServiceLoader' + i;
+        $('#' + spanid).hide();
+        doAutoComplete(name, id, spanid, iconid);
+
+    DataCategoryBind('DataCategory' + i);
+
+
+        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+        i++;
+
+    }
+
+    function DeleteRow() {
+
+        $('#tab_logic tr').each(function (index) {
+
+            $(this).find('td .rowNum').each(function (index) {
+
+                var id = parseInt($(this).html());
+
+                $(this).parents("tr").remove();
+            });
+        });
+
+        $('#tab_logic').append('<tr id="addr0"></tr>');
+        i = 0;
+    }
+
+    $("#tab_logic tbody").on('click', '.deleteCategory', function () {
+
+        $(this).parents("tr").remove();
+    });
+
+
+    var dataCategorySource = [
+        { itemname: 'Account' },
+        { itemname: 'Authentication' },
+        { itemname: 'Belief' },
+        { itemname: 'Biographical' },
+        { itemname: 'Biometric' },
+        { itemname: 'Chronological' },
+        { itemname: 'Communication' },
+        { itemname: 'Contact' },
+        { itemname: 'Credit' },
+        { itemname: 'Criminal' },
+        { itemname: 'Demographic' },
+        { itemname: 'Device' },
+        { itemname: 'Digital Record' },
+        { itemname: 'Educational' },
+        { itemname: 'Engagement' },
+        { itemname: 'Ethnicity' },
+        { itemname: 'Family' },
+        { itemname: 'Identification' },
+        { itemname: 'Investment' },
+        { itemname: 'Knowledge' },
+        { itemname: 'Legal' },
+        { itemname: 'Location' },
+        { itemname: 'Naming' },
+        { itemname: 'Ownership' },
+        { itemname: 'Personality' },
+        { itemname: 'Physiological' },
+        { itemname: 'Professional' },
+        { itemname: 'Public Life' },
+        { itemname: 'Sexual' },
+        { itemname: 'Social Network' },
+        { itemname: 'Transactional' }
+    ];
+
+
+
+    function DataCategorySelectise(ActiveControl, InActiveControl) {
+
+        $(ActiveControl).selectize({
+            plugins: ['remove_button'],
+            delimiter: ',',
+            persist: true,
+            valueField: 'itemname',
+            labelField: 'itemname',
+            searchField: ['itemname'],
+            options: dataCategorySource,
+            create: function (input) {
+                return {
+                    itemname: input
+                }
+            },
+            onChange: function (value, isOnInitialize) {
+                var strarray = value.split(',');
+                var current_item = strarray[strarray.length - 1];
+                $(InActiveControl)[0].selectize.removeOption(current_item);
+                $('#tab_logic tr').each(function (index) {
+                    $(this).find('td .DataCategoryList').each(function (index) {
+                        var categoryListValue = $(this).val();
+
+                        if ($(this).attr('id') != undefined && $(this).attr('id').indexOf("DataCategory") !== -1) {
+                            DataCategoryBind($(this).attr('id'));
+                        }
+
+                    });
+                });
+            },
+            onDelete: function (value, isOnInitialize) {
+
+                var newItem = { itemname: value.toString() };
+
+                var itemString = JSON.stringify(newItem);
+
+                var optionString = JSON.stringify(dataCategorySource);
+
+                if (optionString.includes(value)) {
+                    $(ActiveControl)[0].selectize.refreshOptions();
+                    $(InActiveControl)[0].selectize.addOption({ itemname: value.toString() });
+                }
+                else {
+                    $(ActiveControl)[0].selectize.removeOption(value.toString());
+                    $(ActiveControl)[0].selectize.refreshOptions();
+
+                }
+
+              }
+        });
+    }
+
+
+    function DataCategoryBind(id) {
+        var jqId = "#" + id;
+
+        $(jqId).selectize()[0].selectize.destroy();
+
+        $(jqId).selectize({
+            plugins: ['remove_button'],
+            delimiter: ',',
+            persist: false,
+            valueField: 'categoryname',
+            labelField: 'categoryname',
+            searchField: ['categoryname'],
+            options: DataCategoryOptions(),
+            create: function (input) {
+                return {
+                    value: input,
+                    text: input
+                }
+            }
+        });
+    }
+
+    function DataCategoryOptions() {
+        var dataCategoryListArray = [];
+
+        var value = $('#sensitiveDataCategory').val() + ',' + $('#nonSensitiveDataCategory').val();
+        var strarray = value.split(',');
+
+        $.each(strarray, function (key, value) {
+            dataCategoryListArray.push({ categoryname: value });
+        });
+
+        return dataCategoryListArray;
+    }
+
+
+    function ClearServiceModal() {
+
+        $("#serviceNameModal").val('');
+        $("#privacyControllerModal").val('');
+        $("#tradingNameModal").val('');
+        $("#privacyPolicyLinkModal").val('');
+        $("#languageModal").val('');
+    }
+    function clearOrganisationModal() {
+        $("#organisationNameModal").val('');
+        $("#companyHouseNo").val('');
+        $("#streetAddress").val('');
+        $("#addressLocality").val('');
+        $("#postalCode").val('');
+        $("#email").val('');
+        $("#icoNumber").val('');
+
+        $("#sicCode").val('');
+        $("#addressRegion").val('');
+        $("#organisationCountry").val('');
+        $("#organisationPhone").val('');
+     }
+
+
+    $("#saveDataCategories").on('click', function () {
+
+        var categoryListArray = [];
+        $('#tab_logic tr').each(function (index) {
+
+            $(this).find('td .rowNum').each(function (index) {
+                var categoryListValue = $(this).val();
+
+                var id = parseInt($(this).html()) - 1;
+
+                var processor = {
+                    "IdProcessor": $("#Hidden_IdProcessor" + id).val(),
+                    "Processor": $("#Hidden_OrganisationName" + id).val(),
+                    "ProcessorService": $("#Hidden_ServiceName" + id).val(),
+                    "DataCategory": $('#DataCategory' + id).val(),
+                    "InternationalTransfer": $('input[name="InternationalTransfer' + id + '"]').prop('checked')
+                }
+                categoryListArray.push(processor);
+            });
+        });
+
+        //return false;
+
+        var myData = {
+            "IdPurpose": $("#Hidden_IdPurpose").val(),
+            "Category": '',
+            "Description": $("#purposeDescription").val(),
+            "Justification": $("#justification").val(),
+            "IdOrganisation": @ViewBag.OrganisationId,
+            "IdService": @ViewBag.ServiceId,
+            "SensitiveDataCategory": $('#sensitiveDataCategory').val(),
+            "NonSensitiveDataCategory": $('#nonSensitiveDataCategory').val(),
+            "Processors": categoryListArray,
+            "Disclosures": []
+        };
+
+        var valid = true;
+
+        if ($("#justification").val() == "0" || $("#nonSensitiveDataCategory").val() == undefined) {
+            $.alert({
+                title: 'Audit And Engineering Console',
+                content: 'Choose Justification!',
+            });
+            valid = false;
+            return valid;
+        }
+        if ($("#purposeDescription").val() == "" || $("#purposeDescription").val() == undefined) {
+            $.alert({
+                title: 'Audit And Engineering Console',
+                content: 'Enter Purpose Description!',
+            });
+            valid = false;
+            return valid;
+        }
+
+        //if (categoryListArray.length == 0) {
+        //    alert('Add Processor');
+        //    valid = false;
+        //    return valid;
+        //}
+
+        $.each(categoryListArray, function (key, value) {
+            if (value.Processor == 0 && value.ProcessorService == 0 && value.DataCategory == "" || value.DataCategory == undefined) {
+                //alert('Choose processor');
+                valid = true;
+                return valid;
+            }
+            else if (value.Processor == 0) {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'Choose Processor!',
+                });
+                valid = false;
+                return valid;
+             }
+            else if (value.ProcessorService == 0) {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'Choose Processor Service!',
+                });
+                valid = false;
+                return valid;
+            }
+            else if (value.DataCategory == "" || value.DataCategory == undefined) {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'Choose Processor Data Category!',
+                });
+                valid = false;
+                return valid;
+            }
+        });
+
+        if (!valid) {
+            return false;
+        }
+
+
+        $.ajax({
+            url: '@Url.Action("SavePurpose")',
+            data: JSON.stringify(myData),
+            cache: false,
+            dataType: 'html',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            success: function (html) {
+                $.alert({
+                    title: 'Audit And Engineering Console',
+                    content: 'Purpose Saved!',
+                });
+                ClearPurposeData();
+                showAddPurposeDiv();
+                $("#tbpurpose").DataTable().ajax.reload();
+            },
+            error: function (error) {
+                $('#error').html(error.responseText);
+            }
+        });
+
+    });
+
+    function ClearPurposeData() {
+        $("#sensitiveDataCategory")[0].selectize.clear();
+        $("#nonSensitiveDataCategory")[0].selectize.clear();
+        $("#sensitiveDataCategory")[0].selectize.destroy();
+        $("#nonSensitiveDataCategory")[0].selectize.destroy();
+        $("#Hidden_IdPurpose").val(0);
+        $("#justification").val(0);
+        $("#purposeDescription").val("");
+        DataCategorySelectise('#sensitiveDataCategory', '#nonSensitiveDataCategory');
+        DataCategorySelectise('#nonSensitiveDataCategory', '#sensitiveDataCategory');
+        DeleteRow();
+    }
+
+</script>

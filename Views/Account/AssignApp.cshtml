@@ -1,0 +1,153 @@
+﻿@model SampleMvcApp.ViewModels.SelectedAppViewModel
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+@{
+    //var lstapps = new Object();
+    //lstapps = ViewBag.Apps;
+}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
+<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+
+
+<style>
+    #txtUsername {
+        border-radius: 40px;
+        margin: 50px;
+    }
+
+    #btnSubmit {
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "/Account/GetApps",
+                //data: { 'username': uname },
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    $("#divapps").html('');
+                    var divappsContent = '';
+                    for (var i = 0; i < response.length; i++) {
+                        divappsContent += '<p>' + response[i].appname + '</p>';
+                    }
+                    console.log(divappsContent);
+                    $("#divapps").append(divappsContent);
+                },
+                error: function (response) {
+                    alert(response.responseText)
+                }
+            });
+            //});
+            $('#add_row').click(function (event) {
+                $('#divselect').show();
+            });
+            /*$('#btnSubmit').click(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "GET",
+                    url: "/Account/GetApps",
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        $("#divapps").html('');
+                        var divappsContent = '';
+                        for (var i = 0; i < response.length; i++) {
+                            divappsContent += '<p>' + response[i].appname + '</p>';
+                        }
+                        $("#divapps").append(divappsContent);
+                    },
+                    error: function (response) {
+                        alert(response.responseText)
+                    }
+                });
+            });*/
+        });
+    });
+</script>
+
+
+<div class="container">
+    <div class="col-md-4">
+        @*<input id="txtUsername" type="text" />
+            <button class="btn-primary" id="btnSubmit" type="submit" value="submit">Submit</button>*@
+        <div id="divapps">
+
+        </div>
+
+
+    </div>
+
+</div>
+<body>
+    @using (Html.BeginForm("AssignApp", "Account", FormMethod.Post))
+    {
+        <div class="">
+            <div class="col-md-2">
+                @*<a id="add_row" class="btn btn-primary pull-left"><i class="fa fa-plus-circle"></i>Assign App</a>*@
+            </div>
+            @*<div class="col-md-10" id="divselect">
+
+                @Html.ListBox("lstApps", Model.AppList, new { style = "width:90%" })
+
+            </div>*@
+            @*<div>
+                <input type="submit" value="Submit" />
+            </div>*@
+
+            <script>
+                $(document).ready(function () {
+
+                    var multipleCancelButton = new Choices('#Dropdown', {
+                        removeItemButton: true,
+                        maxItemCount: 5,
+                        searchResultLimit: 5,
+                        renderChoiceLimit: 5
+                    });
+
+                });
+            </script>
+        </div>
+    }
+    @if (ViewBag.Message != null)   
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+</body>
+
+<body>
+    @using (Html.BeginForm("AssignApp", "Account", FormMethod.Post))
+    {
+        @Html.Label("Apps:")
+        <br />
+        <br />
+        @Html.ListBoxFor(model => model.SelectedAppId, Model.AppList, new { style = "width:200px", id = "Dropdown" })
+        <br />
+        <br />
+        <input type="submit" value="Submit" />
+    }
+    @if (ViewBag.Message != null)
+    {
+
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+</body>
+

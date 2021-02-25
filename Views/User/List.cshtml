@@ -1,0 +1,61 @@
+﻿@model IEnumerable<SampleMvcApp.ViewModels.UserList>
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<table class="table table-bordered">
+    <tr class="success">
+        <th>
+            User Name
+        </th>
+        <th>
+            Family Name
+        </th>
+        <th>
+            Given Name
+        </th>
+        <th>
+            Display Name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        foreach (var childitem in item.Resources)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => childitem.userName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => childitem.name.familyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => childitem.name.givenName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => childitem.displayName)
+                </td>
+                <td>
+                    @Html.ActionLink("Assign App", "AssignApp", new { username = childitem.userName }) |
+                    @*@Html.ActionLink("Details", "Details", new { id = childitem.id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = childitem.id })*@
+                </td>
+            </tr>
+        }
+
+    }
+
+</table>

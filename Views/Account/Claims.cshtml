@@ -1,0 +1,256 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Newtonsoft.Json;
+@using SampleMvcApp.ViewModels;
+
+@inject IViewLocalizer Localizer
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var result = new object();
+    var output = new object();
+    var jsonPayloadNew = new object();
+    var jsonPayloadAccess = new object();
+    bool accessException = false;
+    var access_token = "";
+}
+@{
+    var Accessdata = (OIDCTokenResponse)ViewData["Message"];
+}
+
+@{
+
+    var removeList = new List<string> { "tokenInfo", "callbackInfo", "id_token", "introspect_token" , "roles", "http://schemas.microsoft.com/ws/2008/06/identity/claims/role" };
+    var claims = User.Claims.GroupBy(x => x.Type).Select(x => x.First());
+    claims = claims.Where(x => !removeList.Contains(x.Type));
+    var tokenInformation = User.Claims.Where(x => x.Type == "tokenInfo").FirstOrDefault();
+    var callbackInformation = User.Claims.Where(x => x.Type == "callbackInfo").FirstOrDefault();
+    var id_token = Accessdata.IdToken;
+    access_token = Accessdata.AccessToken;
+    var introspect_token = User.Claims.Where(x => x.Type == "introspect_token").FirstOrDefault();
+    result = introspect_token.Value;
+    //decode jwt
+    var secretKey = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
+    try
+    {
+        jsonPayloadNew = JwtCore.JsonWebToken.Decode(id_token, secretKey, false);
+        jsonPayloadAccess = JwtCore.JsonWebToken.Decode(access_token, secretKey, false);
+    }
+    catch (JwtCore.SignatureVerificationException)
+    {
+    }
+    catch (Exception)
+    {
+        accessException = true;
+        jsonPayloadAccess = access_token;
+    }
+    <main class="mt-3 container">
+        <p class="timertext"
+           style="display:none">
+            You are idle for
+            <span class="secs"></span> seconds.
+        </p>
+        <div class="container">
+            <div class="nav-wrapper">
+                <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="info-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0 active" id="callback-tab" data-toggle="tab" href="#callback-content" role="tab" aria-controls="callback-content" aria-selected="true" rel="callback-content">
+                            Query Parameters in /callback
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="tokens-tab" data-toggle="tab" href="#tokens-content" role="tab" aria-controls="tokens-content" aria-selected="false" rel="tokens-content">
+                            Token Endpoint Response
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="introspection-tab" data-toggle="tab" href="#intro-content" role="tab" aria-controls="intro-content" aria-selected="false" rel="intro-content">
+                            Token Introspection Response
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="user-tab" data-toggle="tab" href="#user-content" role="tab" aria-controls="user-content" aria-selected="false" rel="user-content">
+                            User Info Response
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card shadow mb-5">
+                <div class="card-body">
+                    <div class="tab-content" id="infoContent">
+                        <!-- Callback content -->
+                        <div class="tab-pane fade show active" id="callback-content" role="tabpanel" aria-labelledby="callback-tab">
+                            <div class="col-12">
+                                <pre class=" language-json"><code class=" language-json" style="white-space: pre-line;"><span class="token punctuation">{</span>
+                                <span id="callBackInfo"></span>
+                                <span class="token punctuation">}</span></code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Tokens Endpoint -->
+                        <div class="tab-pane fade" id="tokens-content" role="tabpanel" aria-labelledby="tokens-tab">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <pre class=" language-json"><code class=" language-json" style="white-space: pre-line;"><span class="token punctuation">{</span>
+                                    <span id="tokenInfo">
+                                     </span>
+                                    <span class="token punctuation">}</span></code></pre>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    @*For AccessToken Decode*@
+                                    <h5 class="text-muted">Access Token - Decoded JWT</h5>
+                                    <span id="accessHeader">
+                                        <span class="badge badge-primary">Headers</span>
+                                        <pre class=" language-json"><code class=" language-json" style="white-space: pre-line;"><span class="token punctuation">{</span>
+                                        <span id="accessHeaderToken"></span>
+                                        <span class="token punctuation">}</span></code></pre>
+                                    </span>
+                                    <span class="badge badge-primary">Payloads</span>
+                                    <pre class=" language-json">
+                                    <code class=" language-json" style="white-space: pre-line;">
+                                    <span class="token punctuation">{</span>
+                                    <span id="accessPayloadToken" class="language-json"></span>
+                                    <span class="token punctuation">}</span>
+                                        </code>
+                                        </pre>
+                                    @*For IDToken Decode*@
+                                    <h5 class="text-muted">ID Token - Decoded JWT</h5>
+                                    <span class="badge badge-primary">Headers</span>
+                                    <pre class=" language-json"><code class=" language-json" style="white-space: pre-line;"><span class="token punctuation">{</span>
+                                    <span id="headerToken"></span>
+                                    <span class="token punctuation">}</span></code></pre>
+                                    <span class="badge badge-primary">Payloads</span>
+                                    <pre class=" language-json">
+                                    <code class=" language-json" style="white-space: pre-line;">
+                                    <span class="token punctuation">{</span>
+                                    <span id="payloadToken" class="language-json"></span>
+                                    <span class="token punctuation">}</span>
+                                        </code>
+                                        </pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Token Introspection -->
+                        <div class="tab-pane fade" id="intro-content" role="tabpanel" aria-labelledby="introspection-tab">
+                            <div>
+                                <h5 class="text-muted">Access Token</h5>
+                                <pre class=" language-json">
+                                <code class=" language-json" style="white-space:pre-line">
+                                <span class="token punctuation">{</span>
+                                <span id="acessToken"></span>
+                                <span class="token punctuation">}</span>
+                                 </code>
+                                    </pre>
+                            </div>
+                        </div>
+
+                        <!-- User Info Endpoint -->
+                        <div class="tab-pane fade" id="user-content" role="tabpanel" aria-labelledby="user-tab">
+                            <div class="col-12">
+                                <pre class=" language-json"><code class=" language-json" style="white-space: pre-line;">
+                                <span class="token punctuation">{</span>
+                                    @foreach (var claim in claims)
+                                    {
+                                <span id="userInfo"><span class="token new">"</span><span class="token property">@claim.Type</span><span class="token new1">"</span><span class="token operator">:</span> <span class="token new">"</span><span class="token string">@claim.Value</span><span class="token new1">"</span><span class="token punctuation">,</span></span>
+                                    }
+                                <span class="token punctuation">}</span>
+                                </code></pre>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#mt-3").css("display","none");
+        $('.bg-gradient-mybank').addClass('bg-lighter').removeClass('bg-gradient-mybank');
+        var type ="@id_token";
+        var op =@Json.Serialize(@result);
+        output = JSON.parse(op);
+        var token =@Json.Serialize(@jsonPayloadNew);
+        var jwt = JSON.parse(token);
+        let base64Url = type.split('.')[0]; // token you get
+        var headers = window.atob(base64Url);
+        var info =@Json.Serialize(@tokenInformation.Value);
+        var tokenDetails = JSON.parse(info);
+        var callback =@Json.Serialize(@callbackInformation.Value);
+        var callbackDetails = JSON.parse(callback);
+
+        $.each(tokenDetails, function (k, v) {
+            $("#tokenInfo").append('<span class="token property">"'+ k +'"</span><span class="token operator">:</span> <span class="token string">"'+ v +'"</span><span class="token punctuation">,</span><br/>');
+        });
+        $('#tokenInfo .punctuation').last().remove();
+        $('#tokenInfo').find('br:last').remove();
+
+        $.each(callbackDetails, function (k, v) {
+            $("#callBackInfo").append('<span class="token property">"'+ k +'"</span><span class="token operator">:</span> <span class="token string">"'+ v +'"</span><span class="token punctuation">,</span><br/>');
+        });
+        $('#callBackInfo .punctuation').last().remove();
+        $('#callBackInfo').find('br:last').remove();
+
+        $.each(output, function (k, v) {
+            $("#acessToken").append('<span class="token property">"'+ k +'"</span><span class="token operator">:</span> <span class="token string">"'+ v +'"</span><span class="token punctuation">,</span><br/>');
+        });
+        $('#acessToken .punctuation').last().remove();
+        $('#acessToken').find('br:last').remove();
+
+        //JWT Header
+        $.each(JSON.parse(headers), function (header, values) {
+            $("#headerToken").append('<span class="token property">"'+ header +'"</span><span class="token operator">:</span> <span class="token string">"'+ values +'"</span><span class="token punctuation">,</span><br/>');
+        });
+        $('#headerToken .punctuation').last().remove();
+        $('#headerToken').find('br:last').remove();
+
+        //JWT decode
+        $.each(jwt, function(key, value) {
+            $("#payloadToken").append('<span class="token property">"'+ key +'"</span><span class="token operator">:</span> <span class="token string">"'+ value +'"</span><span class="token punctuation">,</span><br/>');
+        });
+        $('#payloadToken .punctuation').last().remove();
+        $('#payloadToken').find('br:last').remove();
+        $('#userInfo .punctuation').last().remove();
+        $('#userInfo').find('br:last').remove();
+       var aToken="@jsonPayloadAccess";
+        var bool=@accessException.ToString().ToLower();
+        //accessToken Decode
+        if (bool == true) {
+            $("#accessHeader").hide();
+            $("#accessPayloadToken").append('<span class="token property">" access_token "</span><span class="token operator">:</span> <span class="token string">"' + aToken + '"</span><br/>');
+        }
+        else {
+        var payloadAccess =@Json.Serialize(@jsonPayloadAccess);
+        var jwtAccess = JSON.parse(payloadAccess);
+        var accessType = "@access_token";
+        let base64UrlAccess = accessType.split('.')[0]; // token you get
+        var accessHeader = window.atob(base64UrlAccess);
+        
+
+         $.each(JSON.parse(accessHeader), function (header, values) {
+            $("#accessHeaderToken").append('<span class="token property">"'+ header +'"</span><span class="token operator">:</span> <span class="token string">"'+ values +'"</span><span class="token punctuation">,</span><br/>');
+        });
+        $('#accessHeaderToken .punctuation').last().remove();
+        $('#accessHeaderToken').find('br:last').remove();
+
+        //JWT decode
+        $.each(jwtAccess, function(key, value) {
+            $("#accessPayloadToken").append('<span class="token property">"'+ key +'"</span><span class="token operator">:</span> <span class="token string">"'+ value +'"</span><span class="token punctuation">,</span><br/>');
+        });
+            $('#accessPayloadToken .punctuation').last().remove();
+        }
+    });
+
+    $('a').on('click', function () {
+        var target = $(this).attr('rel');
+        $("#" + target).show().siblings("div").hide();
+    });
+    $('#info-tabs li a').on('click', function () {
+        $('#info-tabs li a.active').removeClass('active');
+        $(this).addClass('active');
+    });
+</script>

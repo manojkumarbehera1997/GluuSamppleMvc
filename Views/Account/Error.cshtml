@@ -1,0 +1,147 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Error";
+
+    var decodedDescription = new object();
+    bool errorException = false;
+    string errorPartOne = "", errorPartTwo = "", errorPartThree = "";
+    //decode jwt
+    var secretKey = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
+    try
+    {
+        decodedDescription = JwtCore.JsonWebToken.Decode(ViewBag.ErrorDescription, secretKey, false);
+        errorException = false;
+        string errorToken = ViewBag.ErrorDescription;
+        errorPartOne = errorToken.Substring(0, errorToken.IndexOf('.'));
+        int startindex = errorToken.IndexOf('.');
+        int Endindex = errorToken.LastIndexOf('.');
+        errorPartTwo = errorToken.Substring(startindex + 1, Endindex - startindex - 1);
+
+        int sepPos = errorToken.LastIndexOf(".");
+        errorPartThree = errorToken.Substring(sepPos + 1);
+    }
+    catch (JwtCore.SignatureVerificationException)
+    {
+    }
+    catch (Exception)
+    {
+        errorException = true;
+        decodedDescription = ViewBag.ErrorDescription;
+    }
+}
+
+
+
+
+
+@if (errorException == false)
+{
+    <main class="mt-3 container">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Error Token</h3>
+                </div>
+                <div class="col-6">
+                    <pre class=" language-jwt"><code class=" language-jwt"><span class="token function">@ViewBag.Error</span></code></pre>
+                </div>
+                <div class="col-6">
+                    <pre class=" language-jwt">
+                    <code class=" language-jwt" style="white-space: pre-line;">
+                       
+                    <span class="token function">@errorPartOne</span>.
+                    <span class="token keyword">@errorPartTwo</span>.
+                    <span class="token variable">@errorPartThree</span>
+                           
+                    </code>
+                </pre>
+                </div>
+                <div class="col-6">
+                    <h5 class="text-muted">Decoded Error Data</h5>
+                    <pre class=" language-json"><code class=" language-json" style="white-space: pre-line;">
+                    <span class="token punctuation">{</span>
+                    <span id="errorData"></span>
+                    <span class="token punctuation">}</span></code></pre>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a href="/" class="btn btn-primary">Go Back Home</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+}
+else
+{
+    <main class="mt-3 container">
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Error Token</h3>
+                </div>
+                <div class="col-6">
+                    <pre class=" language-jwt"><code class=" language-jwt"><span class="token function">@ViewBag.Error</span></code></pre>
+                </div>
+                <div class="col-6">
+                    <pre class=" language-jwt"><code class=" language-jwt"><span class="token keyword">@decodedDescription</span></code></pre>
+                </div>
+
+                <div class="col-6">
+                    <h5 class="text-muted">Decoded Error Data</h5>
+                    <pre class=" language-jwt"><code class=" language-jwt"><span class="token keyword">""</span></code></pre>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a href="https://app4-oidc-stage.icrypto.com/" class="btn btn-primary">Go Back Home</a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </main>
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://icrypto-cdn.s3.amazonaws.com/js/integrations/icrypto-web-v3.min.js"></script>
+<script src="https://icrypto-cdn.s3.amazonaws.com/js/integrations/sidas.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+        asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+</script>
+<script>
+    $(document).ready(function () {
+        $('.bg-gradient-mybank').addClass('bg-lighter').removeClass('bg-gradient-mybank');
+        ////let app = new App();
+        ////app.loadLanguages();
+
+
+
+        // Update the ui_locale cookie whenever the user changes the selection
+        $('#ui-locales').show().on("change", function () {
+            let selected = $(this).val();
+            Cookies.set("ui_locale", selected, { expires: 7 });
+            location.reload();
+        });
+        var op =@Json.Serialize(@decodedDescription);
+        var result = JSON.parse(op);
+        $.each(result, function (k, v) {
+            $("#errorData").append('<span class="token property">"' + k + '"</span><span class="token operator">:</span> <span class="token string">"' + v + '"</span><span class="token punctuation">,</span><br/>');
+        });
+        $('#errorData .punctuation').last().remove();
+        $('#errorData').find('br:last').remove();
+    });</script>

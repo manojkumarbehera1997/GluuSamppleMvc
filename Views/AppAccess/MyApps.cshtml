@@ -1,0 +1,68 @@
+﻿
+
+@using SampleMvcApp.ViewModels;
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "MyApps";
+}
+<style>
+    .zoom {
+        transition: transform .2s;
+        height: 140px;
+        width: 180px;
+        margin: 0 auto;
+    }
+
+        .zoom:hover {
+            -ms-transform: scale(1.5); /* IE 9 */
+            -webkit-transform: scale(1.5); /* Safari 3-8 */
+            transform: scale(1.2);
+        }
+</style>
+@*<script src="~/js/Dashboard/jquery.knob.min.js"></script>*@
+<script src="~/js/Dashboard/jquery.min.js"></script>
+<script src="~/js/Dashboard/jquery.sparkline.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js/Dashboard/bootstrap.min.js"></script>
+<script src="~/js/Dashboard/fastclick.js"></script>
+<script src="~/js/Dashboard/adminlte.min.js"></script>
+<script src="~/js/Dashboard/validate_password.js"></script>
+
+
+<h3>MyApps</h3>
+@{
+    var myApps = ViewData["Apps"];
+    Apps[] app = (Apps[])myApps;
+    @if (app.Count() == 0)
+    {
+        <h5 style="color:white">You do not have access to any Apps</h5>
+    }
+    else
+    {
+
+        <ul>
+            @foreach (var item in app)
+            {
+                @*<li style="color:black">@item.appname</li>
+                    <br />*@
+                <li>
+                    <a href="@item.appurl">
+                        <img class="zoom" style="height:100px;width:100px" src="~/images/dashboard/@item.appicon" />
+                    </a>
+                </li>
+            }
+        </ul>
+
+    }
+}
+
+
+
+
+
+

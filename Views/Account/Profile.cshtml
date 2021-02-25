@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+@{ 
+    var removeList = new List<string> { "tokenInfo", "callbackInfo", "id_token", "introspect_token", "roles", "http://schemas.microsoft.com/ws/2008/06/identity/claims/role" };
+    var claims = User.Claims.GroupBy(x => x.Type).Select(x => x.First());
+    claims = claims.Where(x => !removeList.Contains(x.Type));
+}
+<div class="container">
+    <div class="card shadow mb-5">
+        <div class="card-body">
+            <div class="tab-content" id="infoContent">
+                @foreach (var claim in claims)
+                {
+                    <dl>
+                        <dt>@claim.Type</dt>
+                        <dd>- @claim.Value</dd>
+
+                    </dl>
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</div>
+

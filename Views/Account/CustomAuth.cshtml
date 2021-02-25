@@ -1,0 +1,118 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+@{
+    ViewBag.Title = "Custom Auth";
+    Layout = "~/Views/Shared/_LayoutCustom.cshtml";
+}
+
+
+<main class="mt-3 container">
+
+    <div class="row">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5 text-center">
+            <img src="~/images/all_logos.png" alt="OpenID + FIDO MFA + TrueID" class="img-fluid">
+        </div>
+        <div class="w-100"></div>
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+            <div class="card">
+                <div class="card-body">
+                    <form role="form" id="icrypto-form" onsubmit="void(0);">
+                        <h6 class="h6 mb-4 text-black-50">@Localizer["EnterCredentialsText"]</h6>
+                        <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="@Localizer["UsernameText"]" name="username"
+                                       id="username" type="text" autofocus disabled>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="@Localizer["PasswordText"]" type="password"
+                                       name="password" id="password" disabled>
+                            </div>
+                            <p class="text-right"><small><a href="#">@Localizer["ForgotPasswordText"]</a></small></p>
+                        </div>
+                        <button id="login_btn" type="submit" class="btn btn-primary btn-icon mt-2" disabled>
+                            <span class="btn-inner--icon"><i class="fa fa-sign-in"></i></span>
+                            <span class="btn-inner--text">@Localizer["LoginText"]</span>
+                        </button>
+                    </form>
+                    <button id="show_form" class="btn btn-icon btn-primary" style="display: none;">
+                        <span class="btn-inner--icon"><i class="fa fa-sign-in"></i></span>
+                        <span class="btn-inner--text">@Localizer["LoginText"]</span>
+                    </button>
+                    <div id="icrypto_direct_contianer">
+
+                        <div class="or"><span>@Localizer["OrText"]</span></div>
+
+                        <div id="icrypto_direct_contianer">
+                            <a href="#" class="btn btn-primary bg-gradient-primary" id="btn-login-direct">
+                                @Localizer["LoginWithText"] <img src="https://icrypto-cdn.s3.amazonaws.com/img/icrypto/icrypto-logo-white.png" alt="iCrypto" style="height: 23px;margin-top: -5px;"> @Localizer["DirectText"]
+                            </a>
+                            <div id="icrypto-web-direct"></div>
+                            <div id="icrypto-web-message"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3" id="register_container">
+                <div class="card-body">
+                    <div class="text-muted mb-3">
+                        <small>@Localizer["NoAccountText"]</small>
+                    </div>
+                    <a class="btn btn-icon btn-3 btn-primary" href="#">
+                        <span class="btn-inner--icon"><i class="fa fa-user-plus"></i></span>
+                        <span class="btn-inner--text">@Localizer["RegisterText"]</span>
+                    </a>
+                </div>
+            </div>
+       
+    </div>
+</div>
+
+</main>
+
+
+
+<style>
+    #icrypto-web_iframe {
+        width: 688px !important;
+    }
+</style>
+
+
+@*<script src="https://icrypto-cdn.s3.amazonaws.com/js/jquery-1.9.1.min.js"></script>*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+    
+        $("#loginForm").html('');
+        $("#icrypto-form").css('display', 'block');
+
+        window.sidas = new Sidas(document.getElementById("icrypto-form"), { waitTime: 600, showTimer: true, submitType: "ajax" }).init();
+        var langs = sidas.getLocales();
+
+        $("#lang").empty();
+        for (var i = 0; i < langs.length; i++) {
+            if (i == 0) {
+                $("#lang").append($("<option/>").val(langs[i]).text(langs[i].toUpperCase()).attr("selected", "selected"));
+            }
+            else {
+                $("#lang").append($("<option/>").val(langs[i]).text(langs[i].toUpperCase()));
+            }
+        }
+        $("#username").removeAttr("disable");
+        $("#password").removeAttr("disable");
+        $("#login_btn").removeAttr("disable");
+        
+    });
+
+</script>
